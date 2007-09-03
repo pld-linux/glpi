@@ -19,11 +19,11 @@ Source0:	http://www.glpi-project.org/IMG/gz/%{name}-%{ver}-%{relver}.tar.gz
 # Source0-md5:	918dbd3cb175625a4421097bbec43cc4
 URL:		http://glpi-project.org/
 BuildRequires:	rpmbuild(macros) >= 1.268
-Requires:	webapps
-Requires:	tinymce
-Requires:	phpcas
-Requires:	ezpdf
 Requires(triggerpostun):	sed >= 4.0
+Requires:	ezpdf
+Requires:	phpcas
+Requires:	tinymce
+Requires:	webapps
 #Requires:	webserver(access)
 #Requires:	webserver(alias)
 Requires:	webserver(auth)
@@ -39,44 +39,72 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir		%{_datadir}/%{_webapp}
 
 %description
-GLPI is the Information Resource-Manager with an additional Administration- Interface. You can use it to build up a database with an inventory for your company (computer, software, printers...). It has enhanced functions to make the daily life for the administrators easier, like a job-tracking-system with mail-notification and methods to build a database with basic information about your network-topology.
+GLPI is the Information Resource-Manager with an additional
+Administration- Interface. You can use it to build up a database with
+an inventory for your company (computer, software, printers...). It
+has enhanced functions to make the daily life for the administrators
+easier, like a job-tracking-system with mail-notification and methods
+to build a database with basic information about your
+network-topology.
 
 The principal functionalities of the application are :
 
-1) the precise inventory of all the technical resources. All their characteristics will be stored in a database.
+1) the precise inventory of all the technical resources. All their
+characteristics will be stored in a database.
 
-2) management and the history of the maintenance actions and the bound procedures. This application is dynamic and is directly connected to the users who can post requests to the technicians. An interface thus authorizes the latter with if required preventing the service of maintenance and indexing a problem encountered with one of the technical resources to which they have access.
+2) management and the history of the maintenance actions and the bound
+procedures. This application is dynamic and is directly connected to
+the users who can post requests to the technicians. An interface thus
+authorizes the latter with if required preventing the service of
+maintenance and indexing a problem encountered with one of the
+technical resources to which they have access.
 
 %description -l fr.UTF-8
-GLPI est une application libre, destinée à la gestion de parc informatique et de helpdesk.
+GLPI est une application libre, destinée à la gestion de parc
+informatique et de helpdesk.
 
-GLPI est composé d’un ensemble de services web écrits en PHP qui permettent de recenser et de gérer l’intégralité des composantes matérielles ou logicielles d’un parc informatique, et ainsi d’optimiser le travail des techniciens grâce à une maintenance plus cohérente.
+GLPI est composé d’un ensemble de services web écrits en PHP qui
+permettent de recenser et de gérer l’intégralité des composantes
+matérielles ou logicielles d’un parc informatique, et ainsi
+d’optimiser le travail des techniciens grâce à une maintenance
+plus cohérente.
 
-Les fonctionnalités principales de l’application s’articulent autour des axes suivants :
+Les fonctionnalités principales de l’application s’articulent
+autour des axes suivants :
 
-- Inventaire des ordinateurs, périphériques, réseau, imprimantes et consommables associés.
+- Inventaire des ordinateurs, périphériques, réseau, imprimantes et
+  consommables associés.
 
-- Gestion des licences (acquises, à acquérir, sites, oem..) et des dates d’expiration.
+- Gestion des licences (acquises, à acquérir, sites, oem..) et des
+  dates d’expiration.
 
 - Affectation du matériel par zone géographique (salle, étage...).
 
-- Gestion des informations commerciales et financières (achat, garantie et extension, amortissement).
+- Gestion des informations commerciales et financières (achat,
+  garantie et extension, amortissement).
 
 - Gestion des états de matériel.
 
-- Gestion des demandes d’intervention pour tous les types de matériel de l’inventaire.
+- Gestion des demandes d’intervention pour tous les types de
+  matériel de l’inventaire.
 
 - Interface utilisateur finale pour demande d’intervention.
 
-- Gestion des entreprises, contrats, documents liés aux éléments d’inventaires...
+- Gestion des entreprises, contrats, documents liés aux éléments
+  d’inventaires...
 
 - Réservation de matériel.
 
-- Gestion d’un sytème de base de connaissances hiérarchique (FAQ) , gestion d’une FAQ publique.
+- Gestion d’un sytème de base de connaissances hiérarchique (FAQ)
+  , gestion d’une FAQ publique.
 
-- Génération de rapports sur le matériel, de rapports réseau, de rapports sur les interventions.
+- Génération de rapports sur le matériel, de rapports réseau, de
+  rapports sur les interventions.
 
-Utilisée conjointement avec un logiciel d’inventaire automatique comme OCS Inventory NG, vous disposerez d’une solution puissante d’inventaire et gestion de parc avec mises à jour automatique des configurations.
+Utilisée conjointement avec un logiciel d’inventaire automatique
+comme OCS Inventory NG, vous disposerez d’une solution puissante
+d’inventaire et gestion de parc avec mises à jour automatique des
+configurations.
 
 %prep
 %setup -q -n %{name}
