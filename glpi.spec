@@ -10,6 +10,7 @@
 
 Summary:	GLPI - the Information Resource-Manager with an additional Administration Interface
 Summary(fr.UTF-8):	GLPI - une application libre, destinée à la gestion de parc informatique et de helpdesk
+Summary(pl.UTF-8):	GLPI - zarządca informacji z dodatkowym interfejsem administracyjnym
 Name:		glpi
 Version:	%{ver}.%{relver}
 Release:	0.1
@@ -40,14 +41,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 GLPI is the Information Resource-Manager with an additional
-Administration- Interface. You can use it to build up a database with
+Administration Interface. You can use it to build up a database with
 an inventory for your company (computer, software, printers...). It
 has enhanced functions to make the daily life for the administrators
 easier, like a job-tracking-system with mail-notification and methods
 to build a database with basic information about your
 network-topology.
 
-The principal functionalities of the application are :
+The principal functionalities of the application are:
 
 1) the precise inventory of all the technical resources. All their
 characteristics will be stored in a database.
@@ -106,6 +107,25 @@ comme OCS Inventory NG, vous disposerez d’une solution puissante
 d’inventaire et gestion de parc avec mises à jour automatique des
 configurations.
 
+%description -l pl.UTF-8
+GLPI to zarządca zasobów informacyjnych z dodatkowym interfejsem
+administracyjnym. Można go wykorzystać do stworzenia bazy danych z
+inwentarzem firmy (komputery, oprogramowanie, drukarki...). Ma
+rozszerzone funkcje ułatwiające codzienne życie administratorom,
+takie jak system śledzenie zadań z powiadamianiem pocztowym oraz
+tworzenie bazy danych z podstawowymi informacjami o topologii sieci.
+
+Podstawowe funkcje aplikacji obejmują:
+- dokładny inwentarz zasobów technicznych; cała ich charakterystyka
+  jest przechowywana w bazie danych
+
+- zarządzanie i historia zadań administracyjnych oraz związanych z
+  nimi procedur. Ta aplikacja jest dynamiczna i związana bezpośrednio
+  z użytkownikami, którzy mogą wysyłać żądania do techników. Interfejs
+  po zautoryzowaniu tych drugich pokazuje im zgłoszony problem wraz z
+  jednym z powiązanych z nimi zasobów technicznych, do których mają
+  dostęp.
+
 %prep
 %setup -q -n %{name}
 rm -rf ./lib/{tiny_mce,phpcas,ezpdf}
@@ -129,10 +149,12 @@ ln -s %{_datadir}/tinymce $RPM_BUILD_ROOT%{_appdir}/lib/tiny_mce
 ln -s %{_datadir}/phpcas $RPM_BUILD_ROOT%{_appdir}/lib/phpcas
 ln -s %{_datadir}/ezpdf $RPM_BUILD_ROOT%{_appdir}/lib/ezpdf
 
-
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 #install lighttpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %triggerin -- apache1 < 1.3.37-3, apache1-base
 %webapp_register apache %{_webapp}
@@ -151,9 +173,6 @@ install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
 %triggerun -- lighttpd
 %webapp_unregister lighttpd %{_webapp}
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
