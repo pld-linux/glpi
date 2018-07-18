@@ -1,29 +1,40 @@
 # TODO
-# - patch for ezpdf,phpcas,tinymce
-# - specs ezpdf,phpcas
+# - patch for tinymce
+# - specs phpcas
 # - %s#%{_sysconfdir}#%{_webapps}/%{_webapp}#g
 # - config for lighttpd
 # - description
 
-%define		ver	0.68.3
-%define		relver	2
+%define		ver	9.3
+%define		relver	0
 
 Summary:	GLPI - the Information Resource-Manager with an additional Administration Interface
 Summary(fr.UTF-8):	GLPI - une application libre, destinée à la gestion de parc informatique et de helpdesk
 Summary(pl.UTF-8):	GLPI - zarządca informacji z dodatkowym interfejsem administracyjnym
 Name:		glpi
 Version:	%{ver}.%{relver}
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Applications/WWW
-Source0:	http://www.glpi-project.org/IMG/gz/%{name}-%{ver}-%{relver}.tar.gz
-# Source0-md5:	918dbd3cb175625a4421097bbec43cc4
+Source0:	https://github.com/glpi-project/glpi/releases/download/%{version}/%{name}-%{ver}.tgz
+# Source0-md5:	e6ec142ee886bab0b20468c5830160da
 URL:		http://glpi-project.org/
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(triggerpostun):	sed >= 4.0
-Requires:	ezpdf
-Requires:	phpcas
+Requires:	group(http)
+Requires:	php(curl)
+Requires:	php(domxml)
+Requires:	php(gd)
+Requires:	php(imap)
+Requires:	php(json)
+Requires:	php(ldap)
+Requires:	php(mbstring)
+Requires:	php(mysqli)
+Requires:	php(openssl)
+Requires:	php(session)
+Requires:	php(xmlrpc)
 Requires:	tinymce
+Requires:	user(http)
 Requires:	webapps
 #Requires:	webserver(access)
 #Requires:	webserver(alias)
@@ -31,6 +42,7 @@ Requires:	webserver(auth)
 #Requires:	webserver(cgi)
 #Requires:	webserver(indexfile)
 Requires:	webserver(php)
+Suggests:	php(opcache)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -64,20 +76,20 @@ technical resources to which they have access.
 GLPI est une application libre, destinée à la gestion de parc
 informatique et de helpdesk.
 
-GLPI est composé d’un ensemble de services web écrits en PHP qui
-permettent de recenser et de gérer l’intégralité des composantes
-matérielles ou logicielles d’un parc informatique, et ainsi
-d’optimiser le travail des techniciens grâce à une maintenance
-plus cohérente.
+GLPI est composé d'un ensemble de services web écrits en PHP qui
+permettent de recenser et de gérer l'intégralité des composantes
+matérielles ou logicielles d'un parc informatique, et ainsi
+d'optimiser le travail des techniciens grâce à une maintenance plus
+cohérente.
 
-Les fonctionnalités principales de l’application s’articulent
-autour des axes suivants :
+Les fonctionnalités principales de l'application s'articulent autour
+des axes suivants :
 
 - Inventaire des ordinateurs, périphériques, réseau, imprimantes et
   consommables associés.
 
 - Gestion des licences (acquises, à acquérir, sites, oem..) et des
-  dates d’expiration.
+  dates d'expiration.
 
 - Affectation du matériel par zone géographique (salle, étage...).
 
@@ -86,49 +98,49 @@ autour des axes suivants :
 
 - Gestion des états de matériel.
 
-- Gestion des demandes d’intervention pour tous les types de
-  matériel de l’inventaire.
+- Gestion des demandes d'intervention pour tous les types de matériel
+  de l'inventaire.
 
-- Interface utilisateur finale pour demande d’intervention.
+- Interface utilisateur finale pour demande d'intervention.
 
 - Gestion des entreprises, contrats, documents liés aux éléments
-  d’inventaires...
+  d'inventaires...
 
 - Réservation de matériel.
 
-- Gestion d’un sytème de base de connaissances hiérarchique (FAQ)
-  , gestion d’une FAQ publique.
+- Gestion d'un sytème de base de connaissances hiérarchique (FAQ) ,
+  gestion d'une FAQ publique.
 
 - Génération de rapports sur le matériel, de rapports réseau, de
   rapports sur les interventions.
 
-Utilisée conjointement avec un logiciel d’inventaire automatique
-comme OCS Inventory NG, vous disposerez d’une solution puissante
-d’inventaire et gestion de parc avec mises à jour automatique des
+Utilisée conjointement avec un logiciel d'inventaire automatique comme
+OCS Inventory NG, vous disposerez d'une solution puissante
+d'inventaire et gestion de parc avec mises à jour automatique des
 configurations.
 
 %description -l pl.UTF-8
 GLPI to zarządca zasobów informacyjnych z dodatkowym interfejsem
 administracyjnym. Można go wykorzystać do stworzenia bazy danych z
 inwentarzem firmy (komputery, oprogramowanie, drukarki...). Ma
-rozszerzone funkcje ułatwiające codzienne życie administratorom,
-takie jak system śledzenie zadań z powiadamianiem pocztowym oraz
-tworzenie bazy danych z podstawowymi informacjami o topologii sieci.
+rozszerzone funkcje ułatwiające codzienne życie administratorom, takie
+jak system śledzenie zadań z powiadamianiem pocztowym oraz tworzenie
+bazy danych z podstawowymi informacjami o topologii sieci.
 
 Podstawowe funkcje aplikacji obejmują:
 - dokładny inwentarz zasobów technicznych; cała ich charakterystyka
   jest przechowywana w bazie danych
 
 - zarządzanie i historia zadań administracyjnych oraz związanych z
-  nimi procedur. Ta aplikacja jest dynamiczna i związana bezpośrednio
-  z użytkownikami, którzy mogą wysyłać żądania do techników. Interfejs
-  po zautoryzowaniu tych drugich pokazuje im zgłoszony problem wraz z
+  nimi procedur. Ta aplikacja jest dynamiczna i związana bezpośrednio z
+  użytkownikami, którzy mogą wysyłać żądania do techników. Interfejs po
+  zautoryzowaniu tych drugich pokazuje im zgłoszony problem wraz z
   jednym z powiązanych z nimi zasobów technicznych, do których mają
   dostęp.
 
 %prep
 %setup -q -n %{name}
-rm -rf ./lib/{tiny_mce,phpcas,ezpdf}
+rm -r ./lib/tiny_mce
 
 cat > apache.conf <<'EOF'
 Alias /%{name} %{_appdir}
@@ -140,18 +152,23 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},/var/lib/%{name}}
 
-cp -a *.{php,js} $RPM_BUILD_ROOT%{_appdir}
-cp -aR {ajax,css,front,inc,install,locales,plugins,pics,lib,config,files,help} $RPM_BUILD_ROOT%{_appdir}
+cp -a *.php COPYING.txt $RPM_BUILD_ROOT%{_appdir}
+cp -aR {ajax,css,front,inc,install,js,lib,locales,pics,plugins,scripts,sound,vendor} $RPM_BUILD_ROOT%{_appdir}
+for dir in config files; do
+  cp -aR ${dir} $RPM_BUILD_ROOT/var/lib/%{name}/${dir}
+  ln -s /var/lib/%{name}/${dir} $RPM_BUILD_ROOT%{_appdir}/${dir}
+done
+
 #TODO patch
 ln -s %{_datadir}/tinymce $RPM_BUILD_ROOT%{_appdir}/lib/tiny_mce
-ln -s %{_datadir}/phpcas $RPM_BUILD_ROOT%{_appdir}/lib/phpcas
-ln -s %{_datadir}/ezpdf $RPM_BUILD_ROOT%{_appdir}/lib/ezpdf
 
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 #install lighttpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+
+rm $RPM_BUILD_ROOT/var/lib/%{name}/files/_*/remove.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -176,41 +193,32 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS.txt CHANGELOG.txt README.txt
-%lang(fr) %doc LISEZMOI.txt
+%doc CHANGELOG.md README.md apirest.md
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
-%{_appdir}/install/*.php
-%{_appdir}/install/mysql
-#
-%{_appdir}/config/*.php
-%{_appdir}/config/.htaccess
-#
+%dir %{_appdir}
+%attr(770,root,http) %dir /var/lib/%{name}
+# displayed in app
+%{_appdir}/COPYING.txt
 %{_appdir}/*.php
-%{_appdir}/*.js
-%{_appdir}/ajax/*.php
-%{_appdir}/inc/*.php
-%{_appdir}/css/*.css
-%{_appdir}/front/*.php
-%{_appdir}/front/*.html
-%{_appdir}/help/*.html
-%{_appdir}/locales/*.php
-%{_appdir}/pics/icones/*.png
-%{_appdir}/pics/*.gif
-%{_appdir}/pics/*.png
-%{_appdir}/pics/*.ico
-%{_appdir}/lib/*.php
-%{_appdir}/lib/scriptaculous/*.js
-%{_appdir}/lib/calendar/*.js
-%{_appdir}/lib/calendar/lang/*.js
-%{_appdir}/lib/calendar/aqua/*.gif
-%{_appdir}/lib/calendar/aqua/*.css
-%{_appdir}/lib/calendar/images/*.gif
-%{_appdir}/lib/vcardclass/classes-vcard.php
-%{_appdir}/lib/phpmailer/*.php
-%{_appdir}/lib/phpmailer/language/*.php
-#
-%{_appdir}/lib/tiny_mce
-%{_appdir}/lib/phpcas
-%{_appdir}/lib/ezpdf
+%{_appdir}/ajax
+%dir %{_appdir}/config
+%attr(770,root,http) %dir /var/lib/%{name}/config
+/var/lib/%{name}/config/.htaccess
+%{_appdir}/css
+%{_appdir}/files
+%attr(711,root,http) %dir /var/lib/%{name}/files
+/var/lib/%{name}/files/.htaccess
+%attr(770,root,http) %dir /var/lib/%{name}/files/_*
+%{_appdir}/front
+%{_appdir}/inc
+%{_appdir}/install
+%{_appdir}/js
+%{_appdir}/lib
+%{_appdir}/locales
+%{_appdir}/pics
+%{_appdir}/plugins
+%{_appdir}/scripts
+%{_appdir}/sound
+%{_appdir}/vendor
